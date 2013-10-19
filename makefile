@@ -1,0 +1,44 @@
+SRC:= $(wildcard src/*.cc)
+OBJ:= $(SRC:src/%.cc=bin/%.o)
+
+INCLUDE:= -Iinclude
+LIBS:=
+
+MAINS := libRLlib.a
+
+GLOBALDEPEND:= $(wildcard include/*.hpp)
+
+CCFLAGS:=  -pthread -Wall -fPIC -O3
+
+
+TEST:= test/RunTests
+
+CC:= g++
+
+.PHONY: clean doc
+
+
+all: bin $(OBJ) $(MAINS) $(TEST)
+
+bin:
+	@echo Making directory for binaries... 
+	@mkdir -p bin
+
+$(MAINS): %: $(OBJ)
+	@echo Creating static library $@...
+	@ar crs $@ $^ 
+
+$(OBJ): bin/%.o: src/%.cc include/%.hh $(GLOBALDEPEND)
+	@echo Compiling $@...
+	@$(CC) $(CCFLAGS) $(INCLUDE) $(LIBS) -c $< -o $@
+
+
+$(TEST): $(MAINS)
+	$(MAKE) -C test makerun
+
+clean:
+	@echo Cleaning up...
+	@rm -rf bin/*
+	@rm -rf $(MAINS)
+	@find . -type f -name "*~" -exec rm -f {} \;
+	@find . -type f -name "\#*\#" -exec rm -f {} \;
