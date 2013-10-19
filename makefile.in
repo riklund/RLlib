@@ -34,7 +34,7 @@ $(OBJ): bin/%.o: src/%.cc include/%.hh $(GLOBALDEPEND)
 
 
 $(TEST): $(MAINS)
-	$(MAKE) -C test makerun
+	@$(MAKE) -C test makerun
 
 clean:
 	@echo Cleaning up...
