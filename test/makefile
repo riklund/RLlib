@@ -8,6 +8,7 @@ OBJ:= $(SRC:src/%.cc=bin/%.o)
 MAINS:= RunTests
 
 MAINSOBJ:= $(MAINS:%=bin/%.o)
+LIBOBJ:= ../libRLlib.a
 
 CCFLAGS:=  -pthread -Wall -fPIC -O3
 
@@ -15,7 +16,7 @@ CC:= g++
 
 .PHONY: clean
 
-all: bin $(MAINS)
+all: bin $(MAINS) $(LIBOBJ)
 
 bin:
 	@echo Making directory for binaries...
