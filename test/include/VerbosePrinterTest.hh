@@ -1,0 +1,31 @@
+#ifndef VerbosePrinterTest_hh
+#define VerbosePrinterTest_hh 1
+
+#include <iostream>
+#include <assert.h>
+#include <map>
+#include <vector>
+#include <cmath>
+#include <string.h>
+#include <stdio.h>
+
+#include "GenericUnitTest.hh"
+#include "VerbosePrinter.hh"
+
+#include <iostream>
+
+#ifndef EPSILON
+#define EPSILON 1E-9
+#endif
+
+using namespace std;
+
+class VerbosePrinterTest : public GenericUnitTest
+{
+ public:
+  int runUnitTests() const; ///Main function.
+ protected:
+  bool Test_WritesToFileCorrectly_Case1() const; /// Test case.
+  bool Test_WritesToFileCorrectly_Case2() const; /// Test case.
+};
+#endif

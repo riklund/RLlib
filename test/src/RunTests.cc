@@ -22,5 +22,4 @@ int main()
 void addTests()
 {
   #include "ExistingTests.cff"
-  //myTests.push_back((GenericUnitTest*)(new RLExceptionTest()));
 }

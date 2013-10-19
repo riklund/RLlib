@@ -23,12 +23,13 @@ using namespace std;
 #include <iostream>
 #include <list>
 #include <string>
+#include "AllHeaders.cff"
+
 
 #define ADDMACRO_BEFORE myTests.push_back((GenericUnitTest*)(new 
 #define ADDMACRO_AFTER ()));
 
 #include "GenericUnitTest.hh"
-#include "RLExceptionTest.hh"
 
 
 int main();/// The main test function and program entry point.

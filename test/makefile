@@ -14,9 +14,9 @@ CCFLAGS:=  -pthread -Wall -fPIC -O3
 
 CC:= g++
 
-.PHONY: clean
+.PHONY: clean update_headers
 
-all: bin $(MAINS) $(LIBOBJ)
+all: bin update_headers $(MAINS) $(LIBOBJ)
 
 bin:
 	@echo Making directory for binaries...
@@ -26,20 +26,30 @@ makerun: all
 	@echo Running tests...
 	@./RunTests
 
+update_headers: 
+	@./testlist_create.sh
+	@./allheaders_create.sh
+
 test: 
 	@echo Compiling main test object...
 	@$(MAKE) -C test makerun
 
-include/ExistingTests.cff:
+include/ExistingTests.cff: testlist_create.sh
 	@echo Creating list of existing tests...
 	@./testlist_create.sh
+	@touch include/ExistingTests.cff
 
-$(MAINS): %: $(filter-out $(MAINSOBJ), $(OBJ)) include/ExistingTests.cff bin/%.o
+include/AllHeaders.cff: allheaders_create.sh
+	@echo Creating list of all other headers...
+	@./allheaders_create.sh
+	@touch include/AllHeaders.cff
+
+$(MAINS): %: $(filter-out $(MAINSOBJ), $(OBJ)) include/ExistingTests.cff include/AllHeaders.cff bin/%.o
 	@echo Compiling $@
-	$(CC) $(CCFLAGS) $(INCLUDE) $(filter-out include/ExistingTests.cff, $^) $(LIBS) -o $@  
+	$(CC) $(CCFLAGS) $(INCLUDE) $(filter-out include/ExistingTests.cff include/AllHeaders.cff, $^) $(LIBS) -o $@  
 
 
-bin/%.o: src/%.cc include/%.hh include/ExistingTests.cff
+bin/%.o: src/%.cc include/%.hh include/ExistingTests.cff include/AllHeaders.cff
 	@echo Compiling $@
 	@$(CC) $(CCFLAGS) $(INCLUDE) -c $< $(LIBS) -o $@
 
@@ -48,7 +58,8 @@ clean:
 	@echo Cleaning up test directories...
 	@rm -rf $(MAINS)
 	@rm -rf bin/*
-	@rm -rf include/ExistingTests.cff
+	@rm -rf include/ExistingTests*.cff
+	@rm -rf include/AllHeaders*.cff
 	@find . -type f -name "*.o" -exec rm -f {} \;
 	@find . -type f -name "*.a" -exec rm -f {} \;
 	@find . -type f -name "*.d" -exec rm -f {} \;
