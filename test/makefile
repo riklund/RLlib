@@ -16,11 +16,17 @@ CC:= g++
 
 .PHONY: clean update_headers
 
-all: bin update_headers $(MAINS) $(LIBOBJ)
+.NOTPARALLEL: update_headers include/ExistingTests.cff include/AllHeaders.cff
+
+all: bin update_headers $(MAINS) $(LIBOBJ) temp
 
 bin:
 	@echo Making directory for binaries...
 	@mkdir -p bin
+
+temp:
+	@echo Making temporary file directory...
+	@mkdir -p temp
 
 makerun: all
 	@echo Running tests...
@@ -46,7 +52,7 @@ include/AllHeaders.cff: allheaders_create.sh
 
 $(MAINS): %: $(filter-out $(MAINSOBJ), $(OBJ)) include/ExistingTests.cff include/AllHeaders.cff bin/%.o
 	@echo Compiling $@
-	$(CC) $(CCFLAGS) $(INCLUDE) $(filter-out include/ExistingTests.cff include/AllHeaders.cff, $^) $(LIBS) -o $@  
+	@$(CC) $(CCFLAGS) $(INCLUDE) $(filter-out include/ExistingTests.cff include/AllHeaders.cff, $^) $(LIBS) -o $@  
 
 
 bin/%.o: src/%.cc include/%.hh include/ExistingTests.cff include/AllHeaders.cff
@@ -60,6 +66,7 @@ clean:
 	@rm -rf bin/*
 	@rm -rf include/ExistingTests*.cff
 	@rm -rf include/AllHeaders*.cff
+	@rm -rf temp/*
 	@find . -type f -name "*.o" -exec rm -f {} \;
 	@find . -type f -name "*.a" -exec rm -f {} \;
 	@find . -type f -name "*.d" -exec rm -f {} \;

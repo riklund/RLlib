@@ -15,6 +15,9 @@
 #include <map>
 #include <list>
 #include <stdio.h>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
 
 #include "CommandLineArgument.hh"
 #include "CommandLineException.hh"
@@ -29,17 +32,32 @@ using namespace std;
 class CommandLineInterpreter
 {
  public:
-  CommandLineInterpreter(int argc, //!<The number of command line arguments.
-			 char *argv[], //!<The actual arguments.
-			 list<CommandLineArgument> myAcceptableFlags //!<The flags which should be accepted by this interpreter.
-			 );
-  //!< Constructor. \exception CommandLineException if the CommandLineArguments does not match argv and argc (if there are unknown flags).
+  void Initialize(unsigned int argc, ///The number of command line arguments. Take it directly from main.
+				  char * argv[] ///The actual arguments. Take it directly form main.
+				  ); ///Initialize to a specific command line.
+
+  CommandLineInterpreter(list<CommandLineArgument> _myAcceptableFlags  = list<CommandLineArgument>(),///The flags that should be accepted by this interpreter. Default: empty list.
+						 string _description = ""
+						 ); ///Constructor, sets the default stuff.
+
+  void SetDescription(string _description = "" ///Change the description to this. Default is empty.
+					  ); ///Change the description
+
+  void AddCommandLineArgument(CommandLineArgument toAdd ///Add this commmand line argument.
+							  ); ///Add a command line argument.
 
   vector<string> ReadFlaggedCommand(string flag //!<The flag to read
 				    );//!<Returns a vector<string> containing all arguments for a specific flag. Returns an empty vector if there are no arguments for this flag.
   
   vector<string> ReadFlaglessCommands(); //!<Returns all arguments without flags.
+
+  void PrintHelp(); ///Prints help message to stderr.
+
  private:
+  string programName; ///The name of the program.
+  bool initialized; ///Set to true when the program is initialized.
+  list<CommandLineArgument> myAcceptableArguments; ///The arguments accepted by the program.
+  string description; ///Description of the program. Used to print help.
   map<string, vector<string> > myFlaggedCommands; //!<The current flagged commands.
   vector<string> myFlaglessCommands; //!<The current flagless commands.
 };

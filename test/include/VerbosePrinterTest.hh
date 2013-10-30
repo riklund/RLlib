@@ -18,6 +18,10 @@
 #define EPSILON 1E-9
 #endif
 
+#ifndef TEMP_FILE
+#define TEMP_FILE "temp/vask1.txt"
+#endif
+
 using namespace std;
 
 class VerbosePrinterTest : public GenericUnitTest

@@ -1,3 +1,7 @@
 *~
 makefile
 *.o
+*.a
+*.so
+*.cff
+RunTests

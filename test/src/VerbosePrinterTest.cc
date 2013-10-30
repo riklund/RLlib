@@ -3,14 +3,12 @@
 bool VerbosePrinterTest::Test_WritesToFileCorrectly_Case1() const
 {
   bool toReturn = true;
-  char tempFileName [L_tmpnam];
-  tmpnam (tempFileName);
-  VerbosePrinter * myPrinter = new VerbosePrinter(5,tempFileName);
+  VerbosePrinter * myPrinter = new VerbosePrinter(5,TEMP_FILE);
   for(int i = 0; i<10; ++i)
 	myPrinter->Print(i, "%d ", i);
 
   delete myPrinter;
-  FILE * in = fopen(tempFileName, "r");
+  FILE * in = fopen(TEMP_FILE, "r");
   int count = 0;
   int N;
   while(fscanf(in, "%d", &N) != EOF)
@@ -23,28 +21,27 @@ bool VerbosePrinterTest::Test_WritesToFileCorrectly_Case1() const
 	toReturn = false;
   fclose(in);
 
-  remove(tempFileName);
+  remove(TEMP_FILE);
   return toReturn;
 }
 
 bool VerbosePrinterTest::Test_WritesToFileCorrectly_Case2() const
 {
   bool toReturn = true;
-  char tempFileName [L_tmpnam];
-  tmpnam (tempFileName);
-  VerbosePrinter * myPrinter = new VerbosePrinter(5,tempFileName);
+  VerbosePrinter * myPrinter = new VerbosePrinter(5,TEMP_FILE);
   myPrinter->Print(4, "TESTSTRANG%d", 1332);
   
   delete myPrinter;
-  FILE * in = fopen(tempFileName, "r");
+  FILE * in = fopen(TEMP_FILE, "r");
   char buffer[40];
-  fscanf(in, "%s", buffer);
+  int vask2 = fscanf(in, "%s", buffer);
+  (void) vask2;
   if( strcmp(buffer, "TESTSTRANG1332") != 0)
 	toReturn = false;
 
   fclose(in);
 
-  remove(tempFileName);
+  remove(TEMP_FILE);
 
   return toReturn;
 }
