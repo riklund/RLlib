@@ -1,7 +1,7 @@
 #include "CommandLineArgument.hh"
 
-CommandLineArgument::CommandLineArgument(string _flag, unsigned int _nArguments, bool _mandatory, string _description, list<string> _argumentDescription)
-  :flag(_flag), nArguments(_nArguments), mandatory(_mandatory), description(_description), argumentDescription(_argumentDescription)
+CommandLineArgument::CommandLineArgument(string _flag, unsigned int _nArguments, bool _mandatory, string _description, list<string> _argumentDescription, list<string> _defaultArguments)
+  :flag(_flag), nArguments(_nArguments), mandatory(_mandatory), description(_description), argumentDescription(_argumentDescription), defaultArguments(_defaultArguments)
 {
   if(flag.size() < 1)
 	{
@@ -14,6 +14,18 @@ CommandLineArgument::CommandLineArgument(string _flag, unsigned int _nArguments,
   if(argumentDescription.size() > nArguments)
 	{
 	  throw CommandLineException("Invalid number of command line parameter descriptions supplied.");
+	}
+  if(defaultArguments.size() > nArguments)
+	{
+	  throw CommandLineException("Invalid number of default arguments supplied for command.");
+	}
+  if(defaultArguments.size() > 0 && mandatory )
+	{
+	  throw CommandLineException("Cannot have default arguments for a mandatory argument.");
+	}
+  if(defaultArguments.size() > 0 && defaultArguments.size() != nArguments)
+	{
+	  throw CommandLineException("Need to specify either all or none arguments with default value.");
 	}
 }
 
@@ -46,4 +58,9 @@ bool CommandLineArgument::operator==(const CommandLineArgument &other) const
 bool CommandLineArgument::GetMandatory() const
 {
   return mandatory;
+}
+
+list<string> CommandLineArgument::GetDefaultArguments() const
+{
+  return defaultArguments;
 }

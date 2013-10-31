@@ -48,6 +48,9 @@ class CommandLineInterpreter
 
   vector<string> ReadFlaggedCommand(string flag //!<The flag to read
 				    );//!<Returns a vector<string> containing all arguments for a specific flag. Returns an empty vector if there are no arguments for this flag.
+
+  vector<string> ReadFlaggedCommandStrict(string flag ///The flag to read
+										  );///Read a flagged command, but rather than returning an empty vector if there are no arguments, throw an exception. Usable if the intention is to access elements without any check of validity. Warning: an empty vector will still be returned if the flag can lack arguments and still be valid.
   
   vector<string> ReadFlaglessCommands(); //!<Returns all arguments without flags.
 

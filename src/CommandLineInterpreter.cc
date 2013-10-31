@@ -38,7 +38,7 @@ void CommandLineInterpreter::Initialize(unsigned int argc, char * argv[])
 			{
 			  if(temp.compare(it->GetFlag())==0)
 				{
-				  if(i+it->GetNArguments()>argc)
+				  if(i+it->GetNArguments()>=argc)
 					throw CommandLineException("Insufficient number of arguments for flag.\n");
 				  vector<string> myList;
 				  for(unsigned int k = i+1; k<=i+it->GetNArguments(); k++)
@@ -71,15 +71,28 @@ void CommandLineInterpreter::Initialize(unsigned int argc, char * argv[])
     }
   for(list<CommandLineArgument>::const_iterator it = myAcceptableArguments.begin(); it!=myAcceptableArguments.end(); ++it)
 	{
-	  if(it->GetMandatory())
+	  if(myFlaggedCommands.find(it->GetFlag()) == myFlaggedCommands.end())
 		{
-		  if(myFlaggedCommands.find(it->GetFlag()) == myFlaggedCommands.end())
+		  if(it->GetMandatory())
 			{
 			  char buffer[300];
 			  sprintf(buffer, "A mandatory argument (%s) was omitted.",it->GetFlag().c_str());
 			  throw CommandLineException(buffer);
 			}
+		  else
+			{
+			  if(!it->GetDefaultArguments().empty()) ///Fill in default arguments.
+				{
+				  list<string> defaultArgs = it->GetDefaultArguments();
+				  myFlaggedCommands[it->GetFlag()] = vector<string>();
+				  for(list<string>::const_iterator iq = defaultArgs.begin(); iq != defaultArgs.end(); ++iq)
+					{
+					  myFlaggedCommands[it->GetFlag()].push_back(*iq);
+					}
+				}
+			}
 		}
+  
 	}
 }
 
@@ -89,6 +102,24 @@ CommandLineInterpreter::CommandLineInterpreter(list<CommandLineArgument> _myAcce
 {
   initialized=false;
 }
+
+vector<string> CommandLineInterpreter::ReadFlaggedCommandStrict(string flag)
+{
+  if(myFlaggedCommands.find(flag)!=myFlaggedCommands.end())
+    {
+      if(myFlaggedCommands[flag].empty())
+		myFlaggedCommands[flag].push_back("");
+      return myFlaggedCommands[flag];
+    }
+  else
+    {
+	  char buffer[300];
+	  sprintf(buffer, "Strict lookup of command flag '%s' failed.", flag.c_str());
+      throw CommandLineException(buffer);
+    }
+}
+
+
 
 vector<string> CommandLineInterpreter::ReadFlaggedCommand(string flag)
 {
@@ -153,7 +184,18 @@ void CommandLineInterpreter::PrintHelp()
 					{
 					  ss << " <" << (*ip) << ">";
 					}
-				  cerr << setw(5) << " " << setw(40) << ss.str() << " " << it->GetDescription() << endl;
+				  list<string> defaultArguments = it->GetDefaultArguments(); 
+				  stringstream pp;
+				  if(!defaultArguments.empty())
+					{
+					  pp << "[Default:";
+					  for(list<string>::const_iterator ip = defaultArguments.begin(); ip!=defaultArguments.end(); ++ip)
+						{
+						  pp << " " << (*ip);
+						}
+					  pp << "]";
+					}
+				  cerr << setw(5) << " " << setw(40) << ss.str() << " " << it->GetDescription() << setw(20) << pp.str() << endl;
 				}
 			}
 		  cerr << endl;
