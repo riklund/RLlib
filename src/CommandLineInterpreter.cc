@@ -159,6 +159,6 @@ void CommandLineInterpreter::PrintHelp()
 		  cerr << endl;
 		}
 	}
-  cerr << endl << endl;
+  cerr << endl;
   return;
 }
