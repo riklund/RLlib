@@ -188,7 +188,7 @@ void CommandLineInterpreter::PrintHelp()
 				  stringstream pp;
 				  if(!defaultArguments.empty())
 					{
-					  pp << "[Default:";
+					  pp << " [Default:";
 					  for(list<string>::const_iterator ip = defaultArguments.begin(); ip!=defaultArguments.end(); ++ip)
 						{
 						  pp << " " << (*ip);
