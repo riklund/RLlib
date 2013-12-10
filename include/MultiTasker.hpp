@@ -4,6 +4,7 @@
 #include <queue>
 #include <pthread.h>
 #include <iostream>
+#include "RLException.hh"
 
 
 #include "VerbosePrinter.hh"
@@ -234,17 +235,17 @@ void * MultiTasker<Tin, Tout>::DoWork(void * ptr)
       delete_if_pointer<Tin>(myInput);
 
       if(!TypeIsNullPointer(myOutput) && !TypeIsVoid(myOutput) ) ///Don't queue up null stuff.
-	{
-	  pthread_mutex_lock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
-	  myEssentials->output->push(myOutput);
-	  pthread_mutex_unlock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
-	}
+		{
+		  pthread_mutex_lock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
+		  myEssentials->output->push(myOutput);
+		  pthread_mutex_unlock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
+		}
       else
-	{
-	  pthread_mutex_lock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
-	  --(*myEssentials->InputMinusOutput); // If we don't add output, we still need to keep it balanced.
-	  pthread_mutex_unlock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
-	}
+		{
+		  pthread_mutex_lock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
+		  --(*myEssentials->InputMinusOutput); // If we don't add output, we still need to keep it balanced.
+		  pthread_mutex_unlock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
+		}
     }
   return (void*)NULL; ///This should never happen.
 }
@@ -273,7 +274,7 @@ void MultiTasker<Tin, Tout>::LaunchThreads() ///Launch worker threads, if they a
       int ret = pthread_create(myOneThread, &attr, DoWork, 
 			       myThreadEssentials);
       if(ret!=0)
-	throw Exception("Error while creating thread.");
+	throw RLException("Error while creating thread.");
       myThreads.push(myOneThread);
     }
 }

@@ -1,9 +1,18 @@
 #ifndef RLLIB_MACROS
 #define RLLIB_MACROS 1
 
+#include <cfloat>
 
-#define EPS (1E-9)
+#ifndef MAX
+#define MAX(x,y) (((x) > (y)) ? (x) : (y))
+#endif
+
+#define EPS 1E-9
 #define DBL_EQUAL(d1, d2) (abs((d1)-(d2)) < EPS)
+
+#define HPREC_EPSILON 10*DBL_EPSILON
+
+#define DBL_EQUAL_HPREC(d1, d2) (abs((d1)-(d2)) < HPREC_EPSILON * MAX(abs(d1), abs(d2)) || MAX(abs(d1), abs(d2) ) < HPREC_EPSILON )
 
 
 #define foru(var, to)		\
