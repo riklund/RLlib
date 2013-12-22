@@ -23,12 +23,6 @@ function CheckRequirements()
 		RETURNCODE=1
 		exit $RETURNCODE
 	fi
-	if [[ "$(echo "`gsl-config --version`>1.14" | bc)" -lt "1" ]]
-	then 
-		echo "Fatal error: This program required GSL >= 1.15 to run."
-		RETURNCODE=2
-		exit $RETURNCODE
-	fi
 }
 
 Main
