@@ -27,7 +27,8 @@ of your compiler.
 ##Usage
 Use an include directive to include the desired class. For example
 
-	\#include "RLException.hh"
+	#include "RLException.hh"
 
 gives the possibility to throw vararg-exceptions with printf-like syntax:
-throw RLException("The answer is %d", 42);
+
+	  throw RLException("The answer is %d", 42);
