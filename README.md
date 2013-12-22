@@ -7,19 +7,19 @@ A library with some useful classes that often tend to be useful in different pro
 
 ##Installation
 Clone the repository, and then issue
-cd RLlib
-./setup.sh
-make
+	  cd RLlib
+	  ./setup.sh
+	  make
 
 ##Linking
 RLlib needs to be linked with your project in order to work. You need to use the include option
--I/path/to/RLlib/include
+	  -I/path/to/RLlib/include
 and the library option
--L/path/to/RLlib -lRLlib
+	-L/path/to/RLlib -lRLlib
 of your compiler.
 
 ##Usage
 Use an include directive to include the desired class. For example
-\#Include "RLException.hh"
+	\#include "RLException.hh"
 gives the possibility to throw vararg-exceptions with printf-like syntax:
 throw RLException("The answer is %d", 42);
