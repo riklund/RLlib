@@ -42,4 +42,4 @@ clean:
 	@rm -rf $(MAINS)
 	@find . -type f -name "*~" -exec rm -f {} \;
 	@find . -type f -name "\#*\#" -exec rm -f {} \;
-	@make -C test clean
+	@$(MAKE) -C test clean
