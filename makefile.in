@@ -24,6 +24,8 @@ bin:
 	@echo Making directory for binaries... 
 	@mkdir -p bin
 
+test: $(TEST)
+
 $(MAINS): %: $(OBJ)
 	@echo Creating static library $@...
 	@ar crs $@ $^ 
