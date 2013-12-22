@@ -1,0 +1,14 @@
+language: cpp
+
+before_install:
+  - git submodule update --init --recursive
+
+before_script: 
+  - setup.sh
+
+script: 
+  - make
+
+compiler: 
+  - gcc
+  - clang
