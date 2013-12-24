@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/riklund/rllib.png)](https://travis-ci.org/riklund/rllib)
+[![Build Status](https://travis-ci.org/riklund/RLlib.png)](https://travis-ci.org/riklund/RLlib)
 
 
 #RLlib
