@@ -2,6 +2,11 @@
 #define RLLIB_MACROS 1
 
 #include <cfloat>
+#include <complex>
+
+
+typedef std::complex<double> ComplexDouble;
+
 
 #ifndef MAX
 #define MAX(x,y) (((x) > (y)) ? (x) : (y))
