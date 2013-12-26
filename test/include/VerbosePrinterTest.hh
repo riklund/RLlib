@@ -24,10 +24,12 @@
 
 using namespace std;
 
-class VerbosePrinterTest : public GenericUnitTest
+class VerbosePrinterTest 
+  : public GenericUnitTest
 {
  public:
-  int runUnitTests() const; ///Main function.
+  int RunTests() const; ///Main function.
+  string ToString() const;
  protected:
   bool Test_WritesToFileCorrectly_Case1() const; /// Test case.
   bool Test_WritesToFileCorrectly_Case2() const; /// Test case.

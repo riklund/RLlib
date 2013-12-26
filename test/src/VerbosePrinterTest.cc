@@ -47,14 +47,16 @@ bool VerbosePrinterTest::Test_WritesToFileCorrectly_Case2() const
 }
 
 
-int VerbosePrinterTest::runUnitTests() const
+int VerbosePrinterTest::RunTests() const
 {
-  cout << "Running unit tests on VerbosePrinter...";
-  cout << flush;
   if(!Test_WritesToFileCorrectly_Case1())
     return 1;
   if(!Test_WritesToFileCorrectly_Case2())
     return 1;
-  cout << "done" << endl;
   return 0;
+}
+
+string VerbosePrinterTest::ToString() const
+{
+  return "VerbosePrinter";
 }

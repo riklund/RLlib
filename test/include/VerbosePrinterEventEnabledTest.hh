@@ -20,10 +20,12 @@
 
 using namespace std;
 
-class VerbosePrinterEventEnabledTest : public GenericUnitTest
+class VerbosePrinterEventEnabledTest 
+  : public GenericUnitTest
 {
  public:
-  int runUnitTests() const; ///Main function.
+  int RunTests() const; ///Main function.
+  string ToString() const;
  protected:
   bool Test_ConstructsCorrectly_Case1() const; /// Test case.
 

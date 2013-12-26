@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in $(grep "public GenericUnitTest" include/*.hh | awk '{print $2}')
+for i in $(grep "public GenericUnitTest" include/*.hh -B 1 | grep -v GenericUnitTest | awk '{print $2}')
 do 
 	echo ADDMACRO_BEFORE $i ADDMACRO_AFTER >> include/ExistingTests_TMP.cff
 done

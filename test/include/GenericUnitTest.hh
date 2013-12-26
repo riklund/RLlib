@@ -13,10 +13,14 @@ using namespace std;
 
 #ifndef GenericUnitTest_hh
 #define GenericUnitTest_hh 1
+
+#include <string>
+
 class GenericUnitTest
 {
  public:
-  virtual int runUnitTests() const = 0; /// Run the tests.
+  virtual int RunTests() const = 0; /// Run the tests.
   GenericUnitTest(); /// Constructor, constructs the class.
+  virtual string ToString() const = 0;
 };
 #endif

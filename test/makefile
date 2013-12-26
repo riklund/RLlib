@@ -1,24 +1,36 @@
-INCLUDE:= -Iinclude -I../include
+#Modify this makefile to suit your needs.
 
-LIBS:=  -L.. -lRLlib
+#Create variables
+
+CC:= g++
 
 SRC:= $(wildcard src/*.cc)
 OBJ:= $(SRC:src/%.cc=bin/%.o)
 
-MAINS:= RunTests
-
-MAINSOBJ:= $(MAINS:%=bin/%.o)
-LIBOBJ:= ../libRLlib.a
-
 CCFLAGS:=  -pthread -Wall -fPIC -O3
 
-CC:= g++
+INCLUDE := -Iinclude -I../include 
+#Add extra include directives here.
+INCLUDE += 
 
-.PHONY: clean update_headers
+#Add extra libraries here.
+LIBS := 
+
+MAINS:= RunTests
+MAINSOBJ:= $(MAINS:%=bin/%.o)
+
+#List all binaries in the main project which contains main() methods (these cannot be tested).
+NON_TESTABLE_BIN:= 
+
+TESTABLE_BIN:= $(filter-out $(NON_TESTABLE_BIN), $(wildcard ../bin/*.o))
+
+#Targets.
+
+.PHONY: clean update_headers all makerun
 
 .NOTPARALLEL: update_headers include/ExistingTests.cff include/AllHeaders.cff
 
-all: bin update_headers $(MAINS) $(LIBOBJ) temp
+all: bin update_headers $(MAINS) temp
 
 bin:
 	@echo Making directory for binaries...
@@ -50,7 +62,7 @@ include/AllHeaders.cff: allheaders_create.sh
 	@./allheaders_create.sh
 	@touch include/AllHeaders.cff
 
-$(MAINS): %: $(filter-out $(MAINSOBJ), $(OBJ)) include/ExistingTests.cff include/AllHeaders.cff bin/%.o
+$(MAINS): %: $(filter-out $(MAINSOBJ), $(OBJ)) include/ExistingTests.cff include/AllHeaders.cff bin/%.o $(TESTABLE_BIN)
 	@echo Compiling $@
 	@$(CC) $(CCFLAGS) $(INCLUDE) $(filter-out include/ExistingTests.cff include/AllHeaders.cff, $^) $(LIBS) -o $@  
 

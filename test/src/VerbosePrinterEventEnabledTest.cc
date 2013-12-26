@@ -8,12 +8,15 @@ bool VerbosePrinterEventEnabledTest::Test_ConstructsCorrectly_Case1() const
 }
 
 
-int VerbosePrinterEventEnabledTest::runUnitTests() const
+int VerbosePrinterEventEnabledTest::RunTests() const
 {
-  cout << "Running unit tests on VerbosePrinterEventEnabled...";
-  cout << flush;
   if(!Test_ConstructsCorrectly_Case1())
     return 1;
-  cout << "done" << endl;
   return 0;
+}
+
+
+string VerbosePrinterEventEnabledTest::ToString() const
+{
+  return "VerbosePrinterEventEnabled";
 }

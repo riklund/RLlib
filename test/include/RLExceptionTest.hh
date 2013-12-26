@@ -20,10 +20,12 @@
 
 using namespace std;
 
-class RLExceptionTest : public GenericUnitTest
+class RLExceptionTest 
+  : public GenericUnitTest
 {
  public:
-  int runUnitTests() const; ///Main function.
+  int RunTests() const; ///Main function.
+  string ToString() const;
  protected:
   bool Test_ConstructsAndReturnsCorrectly_Case1() const; /// Test case.
   bool Test_ConstructsAndReturnsCorrectly_Case2() const; /// Test case.

@@ -37,16 +37,18 @@ bool RLExceptionTest::Test_ConstructsAndReturnsCorrectly_VA1() const
 }
 
 
-int RLExceptionTest::runUnitTests() const
+int RLExceptionTest::RunTests() const
 {
-  cout << "Running unit tests on RLException...";
-  cout << flush;
   if(!Test_ConstructsAndReturnsCorrectly_Case1())
     return 1;
   if(!Test_ConstructsAndReturnsCorrectly_Case2())
     return 2;
   if(!Test_ConstructsAndReturnsCorrectly_VA1())
     return 2;
-  cout << "done" << endl;
   return 0;
+}
+
+string RLExceptionTest::ToString() const
+{
+  return "RLException";
 }
