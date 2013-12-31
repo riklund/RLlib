@@ -10,6 +10,7 @@ function Main()
 	cp makefile.in makefile
 	#To prevent accidental modification of makefile instead of makefile.in
 	chmod a-w makefile 
+
 	echo "Setup complete."
 }
 
