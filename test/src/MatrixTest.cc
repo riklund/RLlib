@@ -169,8 +169,6 @@ int MatrixTest::TestCase3() const
 
 int MatrixTest::RunTests() const
 {
-  cout << "Running unit tests on Matrix...";
-  cout << flush;
   int code1 = TestCase1();
   if(code1)
     return code1;
@@ -181,7 +179,6 @@ int MatrixTest::RunTests() const
   if(code1)
     return 200+code1;
 
-  cout << "done" << endl;
   return 0;
 }
 
