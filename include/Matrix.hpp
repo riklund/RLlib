@@ -120,7 +120,7 @@ void Matrix<T>::InitializeAll(T value)
 template<class T>
 Matrix<T>::~Matrix()
 {
-  delete ElementArray;
+  delete [] ElementArray;
 }
 
 template<class T>
