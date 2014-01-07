@@ -36,7 +36,7 @@ private:
 
 public:
   MultiTasker(Tout (*DoWorkFunction)(Tin), ///Function pointer to the function that does the actual work. 
-		  unsigned int nbrOfThreads = 10 /// Number of threads used.
+		  uint nbrOfThreads = 10 /// Number of threads used.
 		  );
 
   ~MultiTasker(); ///Destructor.
@@ -61,12 +61,12 @@ public:
   void AddInput(Tin value ///The input.
 		); ///Adds input (=work to do)
   Tout GetOutput(); ///Retrieves output and returns it. Check if there is output by GetOutputSize. Will pause execution until output is generated, if necessary.
-  unsigned int GetOutputSize(); ///Returns the number of output objects waiting to be retreived. 
-  unsigned int GetInputSize(); ///Returns the number of input objects waiting to be processed. 
+  uint GetOutputSize(); ///Returns the number of output objects waiting to be retreived. 
+  uint GetInputSize(); ///Returns the number of input objects waiting to be processed. 
   unsigned long long GetInputMinusOutput(); /// Self-descriptive.
   void PauseUntilOutputIsGenerated(); ///Pause until output is generated. If there is none to produce, however, we return to avoid deadlocks and other unpleasant stuff.
 private:
-  unsigned int threads; ///Number of threads to use.
+  uint threads; ///Number of threads to use.
   
   unsigned long long InputMinusOutput; /// The input minus the output. Used to keep track of when there is no more work to do. WARNING: USE MUTEX
 
@@ -139,7 +139,7 @@ private:
 //////// BEGIN IMPLEMENTATION
 
 template<class Tin, class Tout>
-MultiTasker<Tin, Tout>::MultiTasker(Tout (*DoWorkFunction)(Tin),unsigned int nbrOfThreads)
+MultiTasker<Tin, Tout>::MultiTasker(Tout (*DoWorkFunction)(Tin),uint nbrOfThreads)
 {
   threads = nbrOfThreads;
   pthread_attr_init(&attr);
@@ -327,19 +327,19 @@ Tout MultiTasker<Tin, Tout>::GetOutput()
 }
 
 template<class Tin, class Tout>
-unsigned int MultiTasker<Tin, Tout>::GetOutputSize() ///Returns the number of output objects waiting to be retreived. 
+uint MultiTasker<Tin, Tout>::GetOutputSize() ///Returns the number of output objects waiting to be retreived. 
 {
   pthread_mutex_lock (&output_LOCK); //////////MUTEX LOCK
-  unsigned int outputSize = output.size();
+  uint outputSize = output.size();
   pthread_mutex_unlock (&output_LOCK); //////////MUTEX UNLOCK
   return outputSize;
 }
 
 template<class Tin, class Tout>
-unsigned int MultiTasker<Tin, Tout>::GetInputSize() ///Returns the number of input objects waiting to be processed. 
+uint MultiTasker<Tin, Tout>::GetInputSize() ///Returns the number of input objects waiting to be processed. 
 {
   pthread_mutex_lock (&input_LOCK); //////////MUTEX LOCK
-  unsigned int inputSize = input.size();
+  uint inputSize = input.size();
   pthread_mutex_unlock (&input_LOCK); //////////MUTEX UNLOCK
   return inputSize;
 }

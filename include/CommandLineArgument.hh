@@ -14,9 +14,9 @@
 using namespace std;
 
 #include <string>
-#include "CommandLineException.hh"
 #include <list>
-
+#include "CommandLineException.hh"
+#include "RLMacros.hpp"
 
 /** Represents an argument the program expects on the command line.
     Sent to the CommandLineInterpreter, this class will throw a
@@ -30,7 +30,7 @@ class CommandLineArgument
  public:
 
   CommandLineArgument(string _flag, ///Flag. Mandatory. Do not include the dashes (--)
-					  unsigned int _nArguments = 0, ///Number of arguments to accept. Default: 0
+					  uint _nArguments = 0, ///Number of arguments to accept. Default: 0
 					  bool _mandatory = false, ///Signals if the argument is mandatory.
 					  string _description = "", ///Help for the command. Default: empty
 					  list<string> _argumentDescription = list<string>(), ///Help for the arguments. Default: no description
@@ -38,7 +38,7 @@ class CommandLineArgument
 					  ); ///Constructor, sets the members.
 
   string GetFlag() const; ///Return the flag.
-  unsigned int GetNArguments() const; ///Return the number of arguments.
+  uint GetNArguments() const; ///Return the number of arguments.
   string GetDescription() const; ///Returns the command description.
   list<string> GetArgumentDescription() const; ///Returns description of the arguments. Guaranteed to contain at most GetNArguments() elements, but may contain fewer.
   list<string> GetDefaultArguments() const; ///Returns the default arguments.
@@ -49,7 +49,7 @@ class CommandLineArgument
 
 private:
   string flag; ///The flag of the command. 
-  unsigned int nArguments; ///The arguments of the command.
+  uint nArguments; ///The arguments of the command.
   bool mandatory; ///Signals if the argument is mandatory.
   string description; ///The description of the command.
   list<string> argumentDescription; ///The description of the arguments of the command.

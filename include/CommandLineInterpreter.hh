@@ -21,6 +21,7 @@
 
 #include "CommandLineArgument.hh"
 #include "CommandLineException.hh"
+#include "RLMacros.hpp"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ using namespace std;
 class CommandLineInterpreter
 {
  public:
-  void Initialize(unsigned int argc, ///The number of command line arguments. Take it directly from main.
+  void Initialize(uint argc, ///The number of command line arguments. Take it directly from main.
 				  char * argv[] ///The actual arguments. Take it directly form main.
 				  ); ///Initialize to a specific command line.
 

@@ -1,6 +1,6 @@
 #include "CommandLineArgument.hh"
 
-CommandLineArgument::CommandLineArgument(string _flag, unsigned int _nArguments, bool _mandatory, string _description, list<string> _argumentDescription, list<string> _defaultArguments)
+CommandLineArgument::CommandLineArgument(string _flag, uint _nArguments, bool _mandatory, string _description, list<string> _argumentDescription, list<string> _defaultArguments)
   :flag(_flag), nArguments(_nArguments), mandatory(_mandatory), description(_description), argumentDescription(_argumentDescription), defaultArguments(_defaultArguments)
 {
   if(flag.size() < 1)
@@ -34,7 +34,7 @@ string CommandLineArgument::GetFlag() const
   return flag;
 }
 
-unsigned int CommandLineArgument::GetNArguments() const
+uint CommandLineArgument::GetNArguments() const
 {
   return nArguments;
 }

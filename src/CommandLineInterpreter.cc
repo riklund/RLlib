@@ -10,7 +10,7 @@ void CommandLineInterpreter::AddCommandLineArgument(CommandLineArgument toAdd)
   myAcceptableArguments.push_back(toAdd);
 }
 
-void CommandLineInterpreter::Initialize(unsigned int argc, char * argv[])
+void CommandLineInterpreter::Initialize(uint argc, char * argv[])
 {
   if(initialized)
 	{
@@ -23,7 +23,7 @@ void CommandLineInterpreter::Initialize(unsigned int argc, char * argv[])
 	}
   programName = argv[0];
 
-  for(unsigned int i = 1; i<argc; i++)
+  for(uint i = 1; i<argc; i++)
     {
       string temp(argv[i]);
       if(temp[0]=='-') //we have a flag...
@@ -41,7 +41,7 @@ void CommandLineInterpreter::Initialize(unsigned int argc, char * argv[])
 				  if(i+it->GetNArguments()>=argc)
 					throw CommandLineException("Insufficient number of arguments for flag.\n");
 				  vector<string> myList;
-				  for(unsigned int k = i+1; k<=i+it->GetNArguments(); k++)
+				  for(uint k = i+1; k<=i+it->GetNArguments(); k++)
 					{
 					  string tmp(argv[k]);
 					  if(tmp[0]=='-')

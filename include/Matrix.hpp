@@ -18,27 +18,27 @@ template<class T>
 class Matrix
 {
 public:
-  Matrix(unsigned int _rows, ///Number of rows for the matrix to use.
-		 unsigned int _columns ///Number of columns.
+  Matrix(uint _rows, ///Number of rows for the matrix to use.
+		 uint _columns ///Number of columns.
 		 ); ///Constructor.
 
   ~Matrix(); ///Destructor.
 
   void InitializeAll(T value); ///Set all elements to
 
-  T & Element(unsigned int row, ///Row number. Zero indexed. 
-				 unsigned int column ///Column number. Zero indexed.
+  T & Element(uint row, ///Row number. Zero indexed. 
+				 uint column ///Column number. Zero indexed.
 				 ); ///Returns the element in row row and column column. Throws exception if one or both of these parameters are out of bound.
 
-  T Element(unsigned int row, ///Row number. Zero indexed. 
-				 unsigned int column ///Column number. Zero indexed.
+  T Element(uint row, ///Row number. Zero indexed. 
+				 uint column ///Column number. Zero indexed.
 				 ) const; ///Returns the element in row row and column column. Throws exception if one or both of these parameters are out of bound.
 
   T * GetArray() const; ///Returns the underlying array itself. Use this to send it to LAPACK. Ownership is NOT TRANSFERRED, although the array may (will) be modified (by LAPACK). Do NOT use delete on this, or you will have a segfault on your hands.
 
-  unsigned int Rows() const; ///Returns the number of rows in the matrix.
+  uint Rows() const; ///Returns the number of rows in the matrix.
 
-  unsigned int Columns() const; ///Returns the number of columns in the matrix.
+  uint Columns() const; ///Returns the number of columns in the matrix.
 
   bool IsSquare() const; ///Returns true if the number of rows and the number of columns is equal.
 
@@ -56,8 +56,8 @@ public:
 private:
   inline static bool TEquality(T x1, T x2);
   T * ElementArray; ///The underlying data structure (array) containing the data.
-  unsigned int rows; ///Number of rows in the array.
-  unsigned int columns; ///Number of columns.
+  uint rows; ///Number of rows in the array.
+  uint columns; ///Number of columns.
 };
 
 template<class T>
@@ -70,9 +70,9 @@ inline bool Matrix<T>::TEquality(T x1, T x2)
 template<class T>
 void Matrix<T>::MultiplyBy(T value)
 {
-  for(unsigned int n = 0; n<rows; ++n)
+  for(uint n = 0; n<rows; ++n)
 	{
-	  for(unsigned int m = 0; m<columns; ++m)
+	  for(uint m = 0; m<columns; ++m)
 		{
 		  Element(n, m) *= value;
 		}
@@ -80,13 +80,13 @@ void Matrix<T>::MultiplyBy(T value)
 }
 
 template<class T>
-unsigned int Matrix<T>::Rows() const
+uint Matrix<T>::Rows() const
 {
   return rows;
 }
 
 template<class T>
-unsigned int Matrix<T>::Columns() const
+uint Matrix<T>::Columns() const
 {
   return columns;
 }
@@ -98,7 +98,7 @@ bool Matrix<T>::IsSquare() const
 }
 
 template<class T>
-Matrix<T>::Matrix(unsigned int _rows, unsigned int _columns)
+Matrix<T>::Matrix(uint _rows, uint _columns)
   :rows(_rows),columns(_columns)
 {
   if( rows < 1 || columns < 1 )
@@ -111,7 +111,7 @@ Matrix<T>::Matrix(unsigned int _rows, unsigned int _columns)
 template<class T>
 void Matrix<T>::InitializeAll(T value)
 {
-  for(unsigned int i = 0; i<rows*columns; ++i)
+  for(uint i = 0; i<rows*columns; ++i)
 	{
 	  ElementArray[i]=value;
 	}
@@ -127,9 +127,9 @@ template<class T>
 string Matrix<T>::ToString() const
 {
   stringstream ss;
-  for(unsigned int n = 0; n<rows; ++n)
+  for(uint n = 0; n<rows; ++n)
 	{
-	  for(unsigned int m = 0; m < columns; ++m)
+	  for(uint m = 0; m < columns; ++m)
 		{
 		  ss << setw(23) << Element(n, m);
 		  if(m < columns - 1)
@@ -148,9 +148,9 @@ bool Matrix<T>::IsSymmetric( bool verbose ) const
 	{
 	  return false; ///A matrix must be square in order to be symmetric.
 	}
-  for(unsigned int n = 0; n<rows; ++n)
+  for(uint n = 0; n<rows; ++n)
 	{
-	  for(unsigned int m = 0; m<n; ++m)
+	  for(uint m = 0; m<n; ++m)
 		{
 		  if(! TEquality(Element(n, m), Element(m, n)) )
 			{
@@ -172,9 +172,9 @@ inline bool Matrix<ComplexDouble>::IsSymmetric( bool verbose ) const
 		printf("Non-square matrix cannot be symmetric.\n");
 	  return false; ///A matrix must be square in order to be symmetric.
 	}
-  for(unsigned int n = 0; n<rows; ++n)
+  for(uint n = 0; n<rows; ++n)
 	{
-	  for(unsigned int m = 0; m<n; ++m)
+	  for(uint m = 0; m<n; ++m)
 		{
 		  if(! TEquality(Element(n, m), Element(m, n)) )
 			{
@@ -195,9 +195,9 @@ inline bool Matrix<ComplexDouble>::IsHermitian(bool verbose) const
 	{
 	  return false;
 	}
-  for(unsigned int n = 0; n<rows; ++n)
+  for(uint n = 0; n<rows; ++n)
 	{
-	  for(unsigned int m = 0; m<=n; ++m)
+	  for(uint m = 0; m<=n; ++m)
 		{
 		  if(! TEquality(Element(n, m),conj(Element(m, n))) )
 			{
@@ -211,7 +211,7 @@ inline bool Matrix<ComplexDouble>::IsHermitian(bool verbose) const
 }
 
 template<class T>
-T & Matrix<T>::Element(unsigned int row, unsigned int column)
+T & Matrix<T>::Element(uint row, uint column)
 {
   if(row >= rows)
 	{
@@ -225,7 +225,7 @@ T & Matrix<T>::Element(unsigned int row, unsigned int column)
 }
 
 template<class T>
-T Matrix<T>::Element(unsigned int row, unsigned int column) const
+T Matrix<T>::Element(uint row, uint column) const
 {
   if(row >= rows)
 	{
