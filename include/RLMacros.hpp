@@ -17,9 +17,14 @@ typedef unsigned long ulong;
 #define EPS 1E-9
 #define DBL_EQUAL(d1, d2) (abs((d1)-(d2)) < EPS)
 
+
 #define HPREC_EPSILON 10*DBL_EPSILON
 
 #define DBL_EQUAL_HPREC(d1, d2) (abs((d1)-(d2)) < HPREC_EPSILON * MAX(abs(d1), abs(d2)) || MAX(abs(d1), abs(d2) ) < HPREC_EPSILON )
+
+#define MPREC_EPSILON 1000*DBL_EPSILON
+#define DBL_EQUAL_MPREC(d1, d2) (abs((d1)-(d2)) < MPREC_EPSILON * MAX(abs(d1), abs(d2)) || MAX(abs(d1), abs(d2) ) < MPREC_EPSILON )
+
 
 
 #define foru(var, to)		\
