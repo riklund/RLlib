@@ -8,7 +8,6 @@
 typedef std::complex<double> ComplexDouble;
 typedef unsigned int uint;
 typedef unsigned long ulong;
-typedef unsigned long long ullong;
 
 
 #ifndef MAX
