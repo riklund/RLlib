@@ -63,7 +63,7 @@ private:
 template<class T>
 inline bool Matrix<T>::TEquality(T x1, T x2)
 {
-  //printf("%lf + %lfi %lf + %lfi\n",real(x1), imag(x1),real(x2),imag(x2));
+  //printf("%f + %fi %f + %fi\n",real(x1), imag(x1),real(x2),imag(x2));
   return abs(x1+x2) < T_EPS || (abs(x1-x2)/(abs(x1)+abs(x2))) < T_EPS;
 }
 
@@ -202,7 +202,7 @@ inline bool Matrix<ComplexDouble>::IsHermitian(bool verbose) const
 		  if(! TEquality(Element(n, m),conj(Element(m, n))) )
 			{
 			  if(verbose)
-				printf("Hermiticity invalidity detected: (%d, %d) = %lf + %lfi, (%d, %d) = %lf + %lfi.\n",n,m,real(Element(n,m)),imag(Element(n,m)),m,n,real(Element(m, n)), imag(Element(m, n)));
+				printf("Hermiticity invalidity detected: (%d, %d) = %f + %fi, (%d, %d) = %f + %fi.\n",n,m,real(Element(n,m)),imag(Element(n,m)),m,n,real(Element(m, n)), imag(Element(m, n)));
 			  return false;
 			}
 		}

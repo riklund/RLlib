@@ -8,7 +8,7 @@ MAINS := libRLlib.a
 
 GLOBALDEPEND:= $(wildcard include/*.hpp)
 
-CCFLAGS:=  -pthread -Wall -fPIC -O3
+CCFLAGS:=  -pthread -Wall -fPIC -O3 -std=c++11 -pedantic
 
 
 TEST:= test/RunTests

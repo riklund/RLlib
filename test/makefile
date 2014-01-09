@@ -7,7 +7,7 @@ CC:= g++
 SRC:= $(wildcard src/*.cc)
 OBJ:= $(SRC:src/%.cc=bin/%.o)
 
-CCFLAGS:=  -pthread -Wall -fPIC -O3
+CCFLAGS:=  -pthread -Wall -fPIC -O3 -std=c++11 -pedantic
 
 INCLUDE := -Iinclude -I../include 
 #Add extra include directives here.
