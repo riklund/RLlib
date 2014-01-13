@@ -3,6 +3,7 @@
 
 #include <queue>
 #include <pthread.h>
+#include <unistd.h>
 #include <iostream>
 #include "RLException.hh"
 
