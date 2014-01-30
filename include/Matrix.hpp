@@ -52,6 +52,10 @@ public:
   inline string ToString() const;
 
   void MultiplyBy(T value); ///Multiply each cell in the matrix by this number.
+
+  void MultMv(const T * input, ///Input vector.
+			  T * output ///Output vector.
+			  ) const; ///Computes the product Matrix * input = output. For ARPACK compatibility.
   
 private:
   inline static bool TEquality(T x1, T x2);
@@ -77,6 +81,19 @@ void Matrix<T>::MultiplyBy(T value)
 		  Element(n, m) *= value;
 		}
 	}
+}
+
+template<class T>
+void Matrix<T>::MultMv(const T * input, T * output) const
+{
+  for(uint n = 0; n<rows; ++n)
+	{
+	  output[n] = 0;
+	  for(uint m = 0; m<columns; ++m)
+		{
+		  output[n] += Element(n, m) * input[m];
+		}
+	}  
 }
 
 template<class T>
