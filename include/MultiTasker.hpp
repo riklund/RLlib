@@ -224,28 +224,35 @@ void * MultiTasker<Tin, Tout>::DoWork(void * ptr)
   while(true)
     {
       ThreadSafeIdleAndLock(myEssentials); /////////// Wait until there is work to do, or the thread should exit.
-      pthread_mutex_lock (myEssentials->input_LOCK); /////////// MUTEX UNLOCK	
-      
-      Tin myInput = myEssentials->input->front();
-      myEssentials->input->pop();
+      pthread_mutex_lock (myEssentials->input_LOCK); /////////// MUTEX LOCK	
+	  ///There's no guarantee that the queue is not empty by now. So we need to check that.
+	  vector<Tin> myInput;
+	  if(!myEssentials->input->empty())
+		{
+		  myInput.push_back(myEssentials->input->front());
+		  myEssentials->input->pop();
+		}
 
       pthread_mutex_unlock (myEssentials->input_LOCK); /////////// MUTEX UNLOCK
       
-      Tout myOutput = (*myEssentials->myDoWorkFunction)(myInput);
-      
-      delete_if_pointer<Tin>(myInput);
-
-      if(!TypeIsNullPointer(myOutput) && !TypeIsVoid(myOutput) ) ///Don't queue up null stuff.
+	  if(!myInput.empty())
 		{
-		  pthread_mutex_lock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
-		  myEssentials->output->push(myOutput);
-		  pthread_mutex_unlock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
-		}
-      else
-		{
-		  pthread_mutex_lock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
-		  --(*myEssentials->InputMinusOutput); // If we don't add output, we still need to keep it balanced.
-		  pthread_mutex_unlock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
+		  Tout myOutput = (*myEssentials->myDoWorkFunction)(myInput.front());
+		  
+		  delete_if_pointer<Tin>(myInput.front());
+		  
+		  if(!TypeIsNullPointer(myOutput) && !TypeIsVoid(myOutput) ) ///Don't queue up null stuff.
+			{
+			  pthread_mutex_lock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
+			  myEssentials->output->push(myOutput);
+			  pthread_mutex_unlock (myEssentials->output_LOCK); /////////// MUTEX UNLOCK
+			}
+		  else
+			{
+			  pthread_mutex_lock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
+			  --(*myEssentials->InputMinusOutput); // If we don't add output, we still need to keep it balanced.
+			  pthread_mutex_unlock (myEssentials->InputMinusOutput_LOCK); /////////// MUTEX UNLOCK
+			}
 		}
     }
   return (void*)NULL; ///This should never happen.
@@ -275,7 +282,7 @@ void MultiTasker<Tin, Tout>::LaunchThreads() ///Launch worker threads, if they a
       int ret = pthread_create(myOneThread, &attr, DoWork, 
 			       myThreadEssentials);
       if(ret!=0)
-	throw RLException("Error while creating thread.");
+		throw RLException("Error while creating thread.");
       myThreads.push(myOneThread);
     }
 }

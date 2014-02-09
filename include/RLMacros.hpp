@@ -14,6 +14,10 @@ typedef unsigned long ulong;
 #define MAX(x,y) (((x) > (y)) ? (x) : (y))
 #endif
 
+#ifndef MIN
+#define MIN(x, y) (((x)<(y)) ? (x) : (y) )
+#endif
+
 #define EPS 1E-9
 #define DBL_EQUAL(d1, d2) (abs((d1)-(d2)) < EPS)
 
