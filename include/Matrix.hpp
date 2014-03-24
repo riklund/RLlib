@@ -51,6 +51,8 @@ public:
 
   inline string ToString() const;
 
+  void DeleteArray(); ///Call this to delete array and free memory.
+
   void MultiplyBy(T value); ///Multiply each cell in the matrix by this number.
 
   void MultMv(const T * input, ///Input vector.
@@ -63,6 +65,16 @@ private:
   uint rows; ///Number of rows in the array.
   uint columns; ///Number of columns.
 };
+
+
+template<class T>
+void Matrix<T>::DeleteArray()
+{
+  rows = 0;
+  columns = 0;
+  delete [] ElementArray;
+  ElementArray = NULL;
+}
 
 template<class T>
 inline bool Matrix<T>::TEquality(T x1, T x2)
@@ -137,7 +149,8 @@ void Matrix<T>::InitializeAll(T value)
 template<class T>
 Matrix<T>::~Matrix()
 {
-  delete [] ElementArray;
+  if(ElementArray)
+	delete [] ElementArray;
 }
 
 template<class T>
