@@ -72,8 +72,11 @@ void Matrix<T>::DeleteArray()
 {
   rows = 0;
   columns = 0;
-  delete [] ElementArray;
-  ElementArray = NULL;
+  if(ElementArray)
+	{
+	  delete [] ElementArray;
+	  ElementArray = NULL;
+	}
 }
 
 template<class T>
