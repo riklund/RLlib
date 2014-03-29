@@ -18,27 +18,27 @@ template<class T>
 class Matrix
 {
 public:
-  Matrix(uint _rows, ///Number of rows for the matrix to use.
-		 uint _columns ///Number of columns.
+  Matrix(ulong _rows, ///Number of rows for the matrix to use.
+		 ulong _columns ///Number of columns.
 		 ); ///Constructor.
 
   ~Matrix(); ///Destructor.
 
   void InitializeAll(T value); ///Set all elements to
 
-  T & Element(uint row, ///Row number. Zero indexed. 
-				 uint column ///Column number. Zero indexed.
+  T & Element(ulong row, ///Row number. Zero indexed. 
+				 ulong column ///Column number. Zero indexed.
 				 ); ///Returns the element in row row and column column. Throws exception if one or both of these parameters are out of bound.
 
-  T Element(uint row, ///Row number. Zero indexed. 
-				 uint column ///Column number. Zero indexed.
+  T Element(ulong row, ///Row number. Zero indexed. 
+				 ulong column ///Column number. Zero indexed.
 				 ) const; ///Returns the element in row row and column column. Throws exception if one or both of these parameters are out of bound.
 
   T * GetArray() const; ///Returns the underlying array itself. Use this to send it to LAPACK. Ownership is NOT TRANSFERRED, although the array may (will) be modified (by LAPACK). Do NOT use delete on this, or you will have a segfault on your hands.
 
-  uint Rows() const; ///Returns the number of rows in the matrix.
+  ulong Rows() const; ///Returns the number of rows in the matrix.
 
-  uint Columns() const; ///Returns the number of columns in the matrix.
+  ulong Columns() const; ///Returns the number of columns in the matrix.
 
   bool IsSquare() const; ///Returns true if the number of rows and the number of columns is equal.
 
@@ -62,8 +62,8 @@ public:
 private:
   inline static bool TEquality(T x1, T x2);
   T * ElementArray; ///The underlying data structure (array) containing the data.
-  uint rows; ///Number of rows in the array.
-  uint columns; ///Number of columns.
+  ulong rows; ///Number of rows in the array.
+  ulong columns; ///Number of columns.
 };
 
 
@@ -89,9 +89,9 @@ inline bool Matrix<T>::TEquality(T x1, T x2)
 template<class T>
 void Matrix<T>::MultiplyBy(T value)
 {
-  for(uint n = 0; n<rows; ++n)
+  for(ulong n = 0; n<rows; ++n)
 	{
-	  for(uint m = 0; m<columns; ++m)
+	  for(ulong m = 0; m<columns; ++m)
 		{
 		  Element(n, m) *= value;
 		}
@@ -101,10 +101,10 @@ void Matrix<T>::MultiplyBy(T value)
 template<class T>
 void Matrix<T>::MultMv(const T * input, T * output) const
 {
-  for(uint n = 0; n<rows; ++n)
+  for(ulong n = 0; n<rows; ++n)
 	{
 	  output[n] = 0;
-	  for(uint m = 0; m<columns; ++m)
+	  for(ulong m = 0; m<columns; ++m)
 		{
 		  output[n] += Element(n, m) * input[m];
 		}
@@ -112,13 +112,13 @@ void Matrix<T>::MultMv(const T * input, T * output) const
 }
 
 template<class T>
-uint Matrix<T>::Rows() const
+ulong Matrix<T>::Rows() const
 {
   return rows;
 }
 
 template<class T>
-uint Matrix<T>::Columns() const
+ulong Matrix<T>::Columns() const
 {
   return columns;
 }
@@ -130,7 +130,7 @@ bool Matrix<T>::IsSquare() const
 }
 
 template<class T>
-Matrix<T>::Matrix(uint _rows, uint _columns)
+Matrix<T>::Matrix(ulong _rows, ulong _columns)
   :rows(_rows),columns(_columns)
 {
   if( rows < 1 || columns < 1 )
@@ -143,7 +143,7 @@ Matrix<T>::Matrix(uint _rows, uint _columns)
 template<class T>
 void Matrix<T>::InitializeAll(T value)
 {
-  for(uint i = 0; i<rows*columns; ++i)
+  for(ulong i = 0; i<rows*columns; ++i)
 	{
 	  ElementArray[i]=value;
 	}
@@ -160,9 +160,9 @@ template<class T>
 string Matrix<T>::ToString() const
 {
   stringstream ss;
-  for(uint n = 0; n<rows; ++n)
+  for(ulong n = 0; n<rows; ++n)
 	{
-	  for(uint m = 0; m < columns; ++m)
+	  for(ulong m = 0; m < columns; ++m)
 		{
 		  ss << setw(23) << Element(n, m);
 		  if(m < columns - 1)
@@ -181,14 +181,14 @@ bool Matrix<T>::IsSymmetric( bool verbose ) const
 	{
 	  return false; ///A matrix must be square in order to be symmetric.
 	}
-  for(uint n = 0; n<rows; ++n)
+  for(ulong n = 0; n<rows; ++n)
 	{
-	  for(uint m = 0; m<n; ++m)
+	  for(ulong m = 0; m<n; ++m)
 		{
 		  if(! TEquality(Element(n, m), Element(m, n)) )
 			{
 			  if(verbose)
- 				printf("Symmetricity invalidity detected: (%d, %d) = %5.12f , (%d, %d) = %5.12f .\n",n,m,Element(n,m),m,n,Element(m, n));
+ 				printf("Symmetricity invalidity detected: (%ld, %ld) = %5.12f , (%ld, %ld) = %5.12f .\n",n,m,Element(n,m),m,n,Element(m, n));
 			  return false;
 			}
 		}
@@ -205,14 +205,14 @@ inline bool Matrix<ComplexDouble>::IsSymmetric( bool verbose ) const
 		printf("Non-square matrix cannot be symmetric.\n");
 	  return false; ///A matrix must be square in order to be symmetric.
 	}
-  for(uint n = 0; n<rows; ++n)
+  for(ulong n = 0; n<rows; ++n)
 	{
-	  for(uint m = 0; m<n; ++m)
+	  for(ulong m = 0; m<n; ++m)
 		{
 		  if(! TEquality(Element(n, m), Element(m, n)) )
 			{
 			  if(verbose)
- 				printf("Symmetricity invalidity detected: (%d, %d) = %10.12f%+10.12fi, (%d, %d) = %10.12f%+10.12fi.\n",n,m,real(Element(n,m)),imag(Element(n,m)),m,n,real(Element(m, n)), imag(Element(m, n)));
+ 				printf("Symmetricity invalidity detected: (%ld, %ld) = %10.12f%+10.12fi, (%ld, %ld) = %10.12f%+10.12fi.\n",n,m,real(Element(n,m)),imag(Element(n,m)),m,n,real(Element(m, n)), imag(Element(m, n)));
 			  return false;
 			}
 		}
@@ -228,14 +228,14 @@ inline bool Matrix<ComplexDouble>::IsHermitian(bool verbose) const
 	{
 	  return false;
 	}
-  for(uint n = 0; n<rows; ++n)
+  for(ulong n = 0; n<rows; ++n)
 	{
-	  for(uint m = 0; m<=n; ++m)
+	  for(ulong m = 0; m<=n; ++m)
 		{
 		  if(! TEquality(Element(n, m),conj(Element(m, n))) )
 			{
 			  if(verbose)
-				printf("Hermiticity invalidity detected: (%d, %d) = %f + %fi, (%d, %d) = %f + %fi.\n",n,m,real(Element(n,m)),imag(Element(n,m)),m,n,real(Element(m, n)), imag(Element(m, n)));
+				printf("Hermiticity invalidity detected: (%ld, %ld) = %f + %fi, (%ld, %ld) = %f + %fi.\n",n,m,real(Element(n,m)),imag(Element(n,m)),m,n,real(Element(m, n)), imag(Element(m, n)));
 			  return false;
 			}
 		}
@@ -244,29 +244,29 @@ inline bool Matrix<ComplexDouble>::IsHermitian(bool verbose) const
 }
 
 template<class T>
-T & Matrix<T>::Element(uint row, uint column)
+T & Matrix<T>::Element(ulong row, ulong column)
 {
   if(row >= rows)
 	{
-	  throw RLException("Matrix: Row out of bounds: asked for %d, but there are %d rows.", row, rows);
+	  throw RLException("Matrix: Row out of bounds: asked for %ld, but there are %ld rows.", row, rows);
 	}
   if( column >= columns )
 	{
-	  throw RLException("Matrix Column out of bounds: asked for %d, but there are %d columns.", column, columns);
+	  throw RLException("Matrix Column out of bounds: asked for %ld, but there are %ld columns.", column, columns);
 	}
   return ElementArray[row*columns+column];
 }
 
 template<class T>
-T Matrix<T>::Element(uint row, uint column) const
+T Matrix<T>::Element(ulong row, ulong column) const
 {
   if(row >= rows)
 	{
-	  throw RLException("Matrix: Row out of bounds: asked for %d, but there are %d rows.", row, rows);
+	  throw RLException("Matrix: Row out of bounds: asked for %ld, but there are %ld rows.", row, rows);
 	}
   if( column >= columns )
 	{
-	  throw RLException("Matrix Column out of bounds: asked for %d, but there are %d columns.", column, columns);
+	  throw RLException("Matrix Column out of bounds: asked for %ld, but there are %ld columns.", column, columns);
 	}
   return ElementArray[row*columns+column];
 }
