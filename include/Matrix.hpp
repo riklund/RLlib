@@ -31,8 +31,8 @@ public:
 				 ); ///Returns the element in row row and column column. Throws exception if one or both of these parameters are out of bound.
 
   T Element(ulong row, ///Row number. Zero indexed. 
-				 ulong column ///Column number. Zero indexed.
-				 ) const; ///Returns the element in row row and column column. Throws exception if one or both of these parameters are out of bound.
+			ulong column ///Column number. Zero indexed.
+			) const; ///Returns the element in row row and column column. Throws exception if one or both of these parameters are out of bound.
 
   T * GetArray() const; ///Returns the underlying array itself. Use this to send it to LAPACK. Ownership is NOT TRANSFERRED, although the array may (will) be modified (by LAPACK). Do NOT use delete on this, or you will have a segfault on your hands. Instead use DeleteArray() if you need to destroy the array for freeing memory, but not deleting the object.
 

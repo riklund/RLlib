@@ -12,13 +12,13 @@
 #define VerbosePrinter_hh 1 //! Inclusion guard
 
 
-using namespace std;
 
 #include <stdio.h>
 #include <string>
 #include <stdarg.h>
 #include <list>
 #include <algorithm>
+using namespace std;
 
 
 class VerbosePrinterEventEnabled;

@@ -11,12 +11,14 @@
 #ifndef CommandLineArgument_hh
 #define CommandLineArgument_hh 1 ///Inclusion guard.
 
-using namespace std;
 
 #include <string>
 #include <list>
 #include "CommandLineException.hh"
 #include "RLMacros.hpp"
+
+using namespace std;
+
 
 /** Represents an argument the program expects on the command line.
     Sent to the CommandLineInterpreter, this class will throw a
