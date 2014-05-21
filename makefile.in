@@ -13,7 +13,7 @@ CCFLAGS:=  -pthread -Wall -fPIC -O3 -std=c++11 -pedantic
 
 TEST:= test/RunTests
 
-CC:= clang
+CC:= g++
 
 .PHONY: clean doc
 
